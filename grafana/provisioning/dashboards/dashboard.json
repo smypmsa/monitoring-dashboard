@@ -1,0 +1,152 @@
+{
+  "title": "API Monitoring Dashboard",
+  "time": {
+    "from": "now-3h",
+    "to": "now"
+  },
+  "refresh": "5m",
+  "panels": [
+    {
+      "title": "Uptime",
+      "type": "gauge",
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "continuous-RdYlGr"
+          },
+          "unit": "percentunit",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "options": {
+        "orientation": "vertical",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        }
+      },
+      "targets": [
+        {
+          "expr": "sum(count_over_time(http_response_http_response_code{job='telegraf', status_code='200'}[$__range])) by (source) / sum(count_over_time(http_response_http_response_code{job='telegraf'}[$__range])) by (source)",
+          "instant": false,
+          "legendFormat": "{{source}}",
+          "range": true,
+          "refId": "A"
+        }
+      ]
+    },
+    {
+      "title": "Service availability",
+      "type": "heatmap",
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percentunit",
+          "custom": {
+            "scaleDistribution": {
+              "type": "linear"
+            }
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 24,
+        "x": 0,
+        "y": 5
+      },
+      "options": {
+        "color": {
+          "mode": "scheme",
+          "scheme": "RdYlGn",
+          "steps": 14
+        },
+        "legend": {
+          "show": false
+        },
+        "tooltip": {
+          "show": true
+        },
+        "yAxis": {
+          "axisPlacement": "right",
+          "unit": "percentunit",
+          "reverse": true
+        }
+      },
+      "targets": [
+        {
+          "expr": "http_response_http_response_code{job='telegraf'}",
+          "legendFormat": "{{source}}",
+          "refId": "B"
+        }
+      ]
+    },
+    {
+      "title": "Get block latency",
+      "type": "heatmap",
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "unit": "s",
+          "custom": {
+            "scaleDistribution": {
+              "type": "linear"
+            }
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 24,
+        "x": 0,
+        "y": 12
+      },
+      "options": {
+        "color": {
+          "mode": "scheme",
+          "scheme": "Blues",
+          "steps": 64
+        },
+        "legend": {
+          "show": true
+        },
+        "tooltip": {
+          "show": true
+        },
+        "yAxis": {
+          "axisPlacement": "right",
+          "unit": "s",
+          "reverse": false
+        }
+      },
+      "targets": [
+        {
+          "expr": "http_response_response_time{job='telegraf'}",
+          "legendFormat": "{{source}}",
+          "refId": "C"
+        }
+      ]
+    }
+  ]
+}
