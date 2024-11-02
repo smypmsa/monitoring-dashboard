@@ -13,8 +13,7 @@ This project sets up a monitoring stack with **Telegraf** for endpoint checks, *
 1. **Clone the repository**
 
    ```bash
-   git clone https://github.com/yourusername/yourproject.git
-   cd yourproject
+   git clone https://github.com/smypmsa/monitoring-dashboard.git .
    ```
 
 2. **Launch the stack with Docker Compose**
