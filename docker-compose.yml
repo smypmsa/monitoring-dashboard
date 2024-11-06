@@ -1,6 +1,16 @@
+x-default-logging: &default-logging
+  driver: "json-file"
+  options:
+    max-size: "300m"
+    max-file: '3'
+
 networks:
   monitoring_network:
     driver: bridge
+
+volumes:
+  prometheus-data: null
+  grafana-data: null
 
 services:
   telegraf:
@@ -11,29 +21,42 @@ services:
       - "9126:9126"
     networks:
       - monitoring_network
+    logging: *default-logging
 
   prometheus:
     image: prom/prometheus
-    volumes:
-      - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
       - '--storage.tsdb.retention.time=7d'
     ports:
       - "9090:9090"
+    volumes:
+      - prometheus-data:/prometheus
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
     networks:
       - monitoring_network
+    logging: *default-logging
 
   grafana:
     image: grafana/grafana
-    environment:
-      - GF_DASHBOARDS_DEFAULT_HOME_DASHBOARD_PATH=/etc/grafana/provisioning/dashboards/dashboard.json
-      - GF_AUTH_ANONYMOUS_ENABLED=true
-      - GF_AUTH_ANONYMOUS_ORG_ROLE=Viewer
     ports:
       - "3000:3000"
     volumes:
+      - grafana-data:/var/lib/grafana
       - ./grafana/provisioning/datasources:/etc/grafana/provisioning/datasources
       - ./grafana/provisioning/dashboards:/etc/grafana/provisioning/dashboards
+      - ./grafana/grafana.ini:/etc/grafana/grafana.ini
     networks:
       - monitoring_network
+    logging: *default-logging
+
+  web:
+    image: nginx:latest
+    volumes:
+      - ./static:/usr/share/nginx/html:ro
+      - ./static/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    ports:
+      - "8080:80"
+    networks:
+      - monitoring_network
+    logging: *default-logging

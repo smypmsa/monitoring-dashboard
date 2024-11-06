@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blockchain Status Dashboards</title>
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            margin: 8px 0 0 0;
+            padding: 0;
+            overflow: hidden;
+            height: 100%;
+        }
+        iframe {
+            border: none;
+            overflow: hidden;
+            height: 90vh;
+            width: 100%;
+            display: block;
+            margin-top: 10px;
+        }
+        select, label {
+            font-size: 16px;
+            color: white;
+            background-color: #333;
+            border: 1px solid #555;
+            padding: 5px;
+            margin: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <label for="blockchainSelect">Select Blockchain:</label>
+    <select id="blockchainSelect" onchange="loadDashboard()">
+        <option value="ethereum">Ethereum</option>
+        <option value="solana">Solana</option>
+        <option value="ton">TON</option>
+    </select>
+
+    <iframe id="dashboardFrame" src="http://localhost:3000/public-dashboards/ba86e6eed02e417cac902268b303a809" name="grafana"></iframe>
+
+    <script>
+        function loadDashboard() {
+            const select = document.getElementById("blockchainSelect");
+            const selectedBlockchain = select.value;
+            const iframe = document.getElementById("dashboardFrame");
+
+            let dashboardUrl;
+            switch (selectedBlockchain) {
+                case "ethereum":
+                    dashboardUrl = "http://localhost:3000/public-dashboards/ba86e6eed02e417cac902268b303a809";
+                    break;
+                case "solana":
+                    dashboardUrl = "http://localhost:3000/public-dashboards/ba86e6eed02e417cac902268b303a809";
+                    break;
+                case "ton":
+                    dashboardUrl = "http://localhost:3000/public-dashboards/ba86e6eed02e417cac902268b303a809";
+                    break;
+            }
+
+            iframe.src = dashboardUrl;
+        }
+    </script>
+
+</body>
+</html>
