@@ -5,42 +5,62 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Blockchain Status Dashboards</title>
     <style>
+        /* Set a minimalistic font */
         body {
-            background-color: black;
-            color: white;
-            margin: 8px 0 0 0;
+            font-family: Arial, sans-serif;
+            background-color: #121212;
+            color: #E0E0E0;
+            margin: 0;
             padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
             overflow: hidden;
-            height: 100%;
         }
-        iframe {
-            border: none;
-            overflow: hidden;
-            height: 90vh;
+
+        /* Header container for logo and select box */
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #1E1E1E;
             width: 100%;
-            display: block;
-            margin-top: 10px;
+            padding: 10px 20px;
+            box-sizing: border-box;
         }
-        select, label {
-            font-size: 16px;
-            color: white;
+
+        /* Chainstack logo styling */
+        .logo {
+            height: 40px; /* Increased logo size */
+        }
+
+        /* Dropdown styling */
+        select {
+            font-size: 14px; /* Decreased font size */
+            color: #E0E0E0;
             background-color: #333;
             border: 1px solid #555;
-            padding: 5px;
-            margin: 10px;
+            padding: 6px;
+            border-radius: 5px;
+            appearance: none;
+            cursor: pointer;
         }
     </style>
 </head>
 <body>
 
-    <label for="blockchainSelect">Select Blockchain:</label>
-    <select id="blockchainSelect" onchange="loadDashboard()">
-        <option value="ethereum">Ethereum</option>
-        <option value="solana">Solana</option>
-        <option value="ton">TON</option>
-    </select>
+    <!-- Header with logo and combobox -->
+    <div class="header">
+        <img src="https://chainstack.com/wp-content/themes/chainstack/img/chainstack-logo-text-white.png" alt="Chainstack Logo" class="logo">
+        <select id="blockchainSelect" onchange="loadDashboard()">
+            <option value="ethereum">Ethereum</option>
+            <option value="solana">Solana</option>
+            <option value="ton">TON</option>
+        </select>
+    </div>
 
-    <iframe id="dashboardFrame" src="http://srv633315.hstgr.cloud:3000/public-dashboards/3fd62b57c41a472fb8781cf19beed221" name="grafana"></iframe>
+    <iframe id="dashboardFrame" src="https://chainstack.grafana.net/public-dashboards/c41b6d145f5a4f7ebd70cbf0d606b2d7" name="grafana"></iframe>
 
     <script>
         function loadDashboard() {
@@ -51,13 +71,13 @@
             let dashboardUrl;
             switch (selectedBlockchain) {
                 case "ethereum":
-                    dashboardUrl = "http://srv633315.hstgr.cloud:3000/public-dashboards/3fd62b57c41a472fb8781cf19beed221";
+                    dashboardUrl = "https://chainstack.grafana.net/public-dashboards/c41b6d145f5a4f7ebd70cbf0d606b2d7";
                     break;
                 case "solana":
-                    dashboardUrl = "http://srv633315.hstgr.cloud:3000/public-dashboards/3fd62b57c41a472fb8781cf19beed221";
+                    dashboardUrl = "https://chainstack.grafana.net/public-dashboards/c41b6d145f5a4f7ebd70cbf0d606b2d7";
                     break;
                 case "ton":
-                    dashboardUrl = "http://srv633315.hstgr.cloud:3000/public-dashboards/3fd62b57c41a472fb8781cf19beed221";
+                    dashboardUrl = "https://chainstack.grafana.net/public-dashboards/c41b6d145f5a4f7ebd70cbf0d606b2d7";
                     break;
             }
 
