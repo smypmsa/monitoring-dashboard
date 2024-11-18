@@ -1,17 +1,15 @@
 FROM telegraf:latest
 
-# Install Python 3
 RUN apt-get update && apt-get install -y python3 python3-pip
 
-# Copy configuration and script files
+COPY requirements.txt /scripts/requirements.txt
+RUN pip3 install --no-cache-dir --break-system-packages -r /scripts/requirements.txt
+
 COPY telegraf.conf /etc/telegraf/telegraf.conf
 COPY scripts /scripts
 
-# Set permissions on scripts
 RUN chmod +x /scripts/block_delay_ws.py
 
-# Set the working directory
 WORKDIR /scripts
 
-# Start Telegraf
 ENTRYPOINT ["telegraf"]

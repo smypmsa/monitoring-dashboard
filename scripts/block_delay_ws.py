@@ -1,17 +1,18 @@
 import json
 import asyncio
-import websockets  # type: ignore
 from datetime import datetime, timezone
 import sys
 
-endpoints = {
-    "ethereum-gen": "wss://ethereum-mainnet.core.chainstack.com/...",
-    "ethereum-ren": "wss://ethereum-mainnet.core.chainstack.com/..."
-}
+import websockets
+
+
+
+
+with open("endpoints.json", "r") as f:
+    endpoints = json.load(f)
 
 async def fetch_block_delay(endpoint, websocket_url):
     async with websockets.connect(websocket_url) as websocket:
-        # Subscribe to newHeads
         await websocket.send(json.dumps({
             "id": 1,
             "jsonrpc": "2.0",
@@ -24,7 +25,6 @@ async def fetch_block_delay(endpoint, websocket_url):
             sys.stderr.write(f"Failed to subscribe for endpoint: {endpoint}\n")
             return
 
-        # Listen for new blocks
         while True:
             response = await websocket.recv()
             response_data = json.loads(response)
