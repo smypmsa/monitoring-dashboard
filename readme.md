@@ -1,7 +1,7 @@
 # Grafana Monitoring Dashboard
 
 ## Overview
-This project sets up a monitoring stack with **Telegraf** for endpoint checks, and **Prometheus** for metric storage, and **Grafana**.
+This project sets up a monitoring stack with **Telegraf** for endpoint checks, and **Prometheus** for metric storage.
 
 ## Components
 - **Telegraf** collects and sends endpoint metrics.
