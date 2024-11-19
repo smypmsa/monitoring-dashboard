@@ -2,11 +2,14 @@ import json
 import asyncio
 from datetime import datetime, timezone
 import sys
+import os
 
 import websockets
 
 
 
+
+hostname = os.getenv("HOSTNAME", "default-host")
 
 with open("endpoints.json", "r") as f:
     endpoints = json.load(f)
@@ -36,7 +39,7 @@ async def fetch_block_delay(endpoint, websocket_url):
                 current_time = datetime.now(timezone.utc)
                 delay = (current_time - block_time).total_seconds()
 
-                sys.stdout.write(f'block_delay_seconds{{endpoint="{endpoint}"}} {delay}\n')
+                sys.stdout.write(f'block_delay_seconds{{endpoint="{endpoint}", host="{hostname}"}} {delay}\n')
                 sys.stdout.flush()
 
 async def main():

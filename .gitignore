@@ -1,4 +1,5 @@
 endpoints.json
+hard-reboot.sh
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

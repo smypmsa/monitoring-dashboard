@@ -15,6 +15,9 @@ services:
   telegraf:
     build:
       context: .
+    environment:
+      - HOSTNAME=telegraf-host
+    hostname: telegraf-host
     volumes:
       - ./endpoints.json:/scripts/endpoints.json:ro
     ports:
